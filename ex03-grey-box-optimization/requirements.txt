@@ -1,0 +1,12 @@
+h5py==3.16.0
+more-itertools
+matplotlib
+pytest
+pycodestyle
+ConfigSpace
+hposuite[benchmarks]==0.1.3
+neural-pipeline-search==0.13.0
+xgboost==2.0.0
+# if error persists in building wheels
+# try using pip install --upgrade setuptools wheel cython
+# You  may need to install swig

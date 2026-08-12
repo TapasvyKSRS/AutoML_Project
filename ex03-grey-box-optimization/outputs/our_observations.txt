@@ -1,0 +1,139 @@
+=============================================================
+Observations - Exercise 03
+=============================================================
+
+Submitters -
+Bharadhwaj Manchikanti
+Reddyi Sai Tapasvy Kasaba Sai
+Jennifer Sreedhara Jeeyar 
+
+Observations:
+
+-------------------------------------------------------------
+Part 1: Grey-Box Optimization for HPO
+-------------------------------------------------------------
+
+1. Successive Halving:
+Successive Halving progressively allocates more budget (epochs) 
+to better-performing configurations while eliminating poor 
+configurations at each stage. From the obtained plot, we observe 
+that the validation error generally decreases as the training budget
+increases. Configurations with high validation error are removed 
+early, allowing computational resources to focus on promising 
+candidates.
+
+The algorithm efficiently reduces the search space and achieves 
+good performance with fewer total resources compared to evaluating
+all configurations fully. However, one drawback is that configurations
+performing poorly at smaller budgets may potentially perform better 
+at larger budgets but get discarded too early.
+
+2. Hyperband:
+Hyperband extends Successive Halving by running multiple brackets 
+with different initial budgets and numbers of configurations. 
+From the plots, Hyperband explores a wider range of configurations 
+and budgets. Some brackets start with many configurations and low 
+budgets, while others start with fewer configurations and larger 
+budgets.
+
+The results show that Hyperband is more robust because it balances 
+exploration and exploitation better than plain Successive Halving. 
+It can identify strong configurations more reliably while still 
+maintaining computational efficiency.
+
+3. Comparison between Successive Halving and Hyperband:
+- Successive Halving is simpler and computationally efficient but 
+  depends heavily on early-stage performance.
+- Hyperband provides a better trade-off between resource allocation 
+  and configuration exploration.
+- Hyperband is generally more reliable because it evaluates 
+  configurations under multiple budget settings.
+
+4. Comparison with Bayesian Optimization:
+
+Advantages of Successive Halving / Hyperband:
+- Easy to implement and parallelize.
+- More scalable to large search spaces.
+- Efficient use of computational resources through adaptive 
+  budget allocation.
+- Hyperband performs well when evaluations are expensive.
+
+Disadvantages compared to Bayesian Optimization:
+- They do not use probabilistic models to guide the search.
+- May discard potentially good configurations too early.
+- Less sample-efficient than Bayesian Optimization in low-dimensional 
+  search spaces.
+
+Advantages of Bayesian Optimization:
+- Uses previous evaluations to intelligently select promising configurations.
+- More sample-efficient when evaluations are very expensive.
+- Performs well for low-dimensional and smooth optimization problems.
+
+Disadvantages of Bayesian Optimization:
+- Computational overhead increases with the number of observations.
+- Harder to parallelize efficiently.
+- Struggles with very large or high-dimensional search spaces.
+
+Overall, Hyperband combines efficient resource allocation with broader 
+exploration and is often preferred for large-scale hyperparameter optimization 
+tasks, while Bayesian Optimization is preferred when function evaluations are 
+extremely expensive and the search space is relatively small.
+
+-------------------------------------------------------------
+Part 2: NePS Parallelization Experiment (Part b) 
+-------------------------------------------------------------
+
+Benchmark: FCNet protein_structures
+Optimizer: Successive Halving
+Budget: 50 evaluations
+time.sleep(evaluation.runtime / 10) enabled to simulate real training time
+Hardware: CPU
+
+Single worker  (1 terminal):  224 seconds  (1 unique worker PID)
+Multi worker   (3 terminals):  71 seconds  (3 unique worker PIDs)
+Almost 3 times faster with 3 workers
+
+How parallelism works in NePS:
+Running python -m src.neps_main simultaneously in multiple terminals
+distributes evaluations across workers via NePS file-based locking on
+the shared ./neps/successive_halving/ directory. No code changes are
+needed — the same script is simply launched multiple times at once.
+Each worker independently picks the next pending config, evaluates it,
+and writes results back to the shared directory. The run completes when
+max_evaluations_total=50 is reached across all workers combined.
+
+Results:
+With 3 workers, wall-clock time dropped from 224s to 71s. 
+
+-------------------------------------------------------------
+Part 3: HPOSuite 
+-------------------------------------------------------------
+
+3a (Successive Halving and Hyperband)
+
+Both Successive Halving and Hyperband perform better than the budget 
+baseline, but Successive Halving improves much faster.
+NepsSuccessiveHalving_default_w_continuations quickly reaches about
+-3 around fidelity 400.
+NepsHyperband_default barely improves and stays close to 0, showing weak 
+performance on this benchmark.
+The large error bars, especially for SMAC methods, show high variation 
+between runs.
+
+3b (optimizer performance)
+
+On mfh3_good, Successive Halving with continuations performs better 
+than plain Hyperband.
+SMAC methods reach similar final results (~-3) but with more uncertainty.
+NepsHyperband_default_w_continuations improves slowly, reaching only 
+about -2 near fidelity 950, while Successive Halving methods achieve better 
+results earlier.
+
+3c (effect of continuations)
+
+The biggest improvement comes from using continuations.
+In all optimizers, continuation versions perform much better than the defaults.
+For example, NepsHyperband_default stays near 0, while the continuation 
+version reaches about -2.
+This suggests that resuming training from checkpoints is very important for 
+effective multi-fidelity optimization.

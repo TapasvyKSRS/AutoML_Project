@@ -1,0 +1,45 @@
+name: GitHub Classroom Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Autograding
+    runs-on: [self-hosted, linux]
+    if: github.run_number > 3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Clean caches
+        run: |
+          echo "🧹 Cleaning Python and system caches..."
+          find . -type d -name '__pycache__' -exec rm -rf {} +
+          rm -rf .pytest_cache .mypy_cache
+          
+          source ~/miniconda3/etc/profile.d/conda.sh
+          conda clean --all --yes || true
+          pip cache purge || true
+
+      - name: Install dependencies in shared Conda env
+        run: |
+          source ~/miniconda3/etc/profile.d/conda.sh
+          conda activate automl
+
+          echo "$CONDA_PREFIX/bin" >> $GITHUB_PATH
+
+          # Crucial: Install CPU-only PyTorch and block caching
+          echo "Installing CPU-only PyTorch"
+          pip install torch --index-url https://download.pytorch.org/whl/cpu --no-cache-dir
+
+          # Install the rest of your specific requirements.txt
+          echo "Installing requirements"
+          pip install --no-cache-dir --no-build-isolation -r requirements.txt
+
+      - name: Run Autograding
+        uses: education/autograding@v1

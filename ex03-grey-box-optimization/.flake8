@@ -1,0 +1,5 @@
+[flake8]
+# Same as black formatter
+max_line_length = 100
+# I like lambdas ^-^
+ignore=E731
