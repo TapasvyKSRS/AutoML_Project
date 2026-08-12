@@ -1,0 +1,3 @@
+Genotype name: darts
+Genotype: Genotype(normal=[('conv_3x3', 0), ('conv_3x3', 0), ('conv_3x3', 1)], normal_concat=range(1, 3), reduce=[('conv_3x3', 0), ('skip_connect', 0), ('conv_3x3', 1)], reduce_concat=range(1, 3))
+Test Accuracy: 97.83

@@ -1,0 +1,18 @@
+
+--extra-index-url https://download.pytorch.org/whl/cpu 
+
+tensorflow==2.12.1
+ConfigSpace==0.6
+numpy>=1.18.2
+pytest
+pycodestyle
+matplotlib
+torch==2.1.2+cpu
+protobuf==3.20.3
+torchvision==0.16.2+cpu
+argparse
+scikit-learn
+graphviz
+typeguard==2.13.3
+
+nasbench @ git+https://github.com/automl-classroom/nasbench-for-automl-lectures.git

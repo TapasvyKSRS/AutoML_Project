@@ -1,0 +1,79 @@
+{
+  "tests": [
+    {
+      "name": "CHECK NAS RANDOM SEARCH",
+      "setup": "",
+      "run": "pytest -k test_rs tests/test_nb_101.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 4
+    },
+    {
+      "name": "CHECK NAS REGULARIZAED EVOLUTION SEARCH",
+      "setup": "",
+      "run": "pytest -k test_re tests/test_nb_101.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "CHECK DARTS ARCHITECT",
+      "setup": "",
+      "run": "pytest tests/test_darts_architect.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 2
+    },
+    {
+      "name": "CHECK DARTS MIXED OP",
+      "setup": "",
+      "run": "pytest tests/test_darts_mixed_op.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 2
+    },
+    {
+      "name": "Check log.txt exists",
+      "run": "pytest -k test_log_txt tests/test_outputs.py",
+      "comparison": "included",
+      "points": 1
+    },
+    {
+      "name": "Check plot.png exists",
+      "run": "pytest -k test_plot_png tests/test_outputs.py",
+      "comparison": "included",
+      "points": 1
+    },
+    {
+      "name": "Check visualizations exist",
+      "run": "pytest -k test_visualizations tests/test_outputs.py",
+      "comparison": "included",
+      "points": 0.5
+    },
+    {
+      "name": "Check darts log directory exists",
+      "run": "pytest -k test_darts_log_dir tests/test_outputs.py",
+      "comparison": "included",
+      "points": 0.5
+    },
+
+    {
+      "name": "checkstyle",
+      "setup": "",
+      "run": "pycodestyle --max-line-length=120 src",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    }
+  ]
+}

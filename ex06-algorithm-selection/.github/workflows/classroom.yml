@@ -1,0 +1,59 @@
+name: GitHub Classroom Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Automatically cancel any currently running jobs for this branch if the student pushes again
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Required permissions for the workflow to function properly
+permissions: write-all
+
+jobs:
+  build:
+    name: Autograding
+    runs-on: [self-hosted, linux]
+    if: github.run_number > 1 # skip the first run to avoid issues with initial setup
+    timeout-minutes: 30 # timeout after 30 minutes to prevent hanging jobs
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Clean caches
+        run: |
+          echo "🧹 Cleaning Python and system caches..."
+          find . -type d -name '__pycache__' -exec rm -rf {} +
+          rm -rf .pytest_cache .mypy_cache
+          
+          source ~/miniconda3/etc/profile.d/conda.sh
+          conda clean --all --yes || true
+          pip cache purge || true
+
+      - name: Set up isolated virtual environment and install dependencies
+        run: |
+          # Create and activate a fresh, isolated virtual environment
+          python3.10 -m venv .venv
+          source .venv/bin/activate
+
+          # Expose the virtual environment to subsequent steps
+          echo "VIRTUAL_ENV=$PWD/.venv" >> $GITHUB_ENV
+          echo "$PWD/.venv/bin" >> $GITHUB_PATH
+
+          # Install requirements
+          echo "Installing requirements"
+          pip install --no-cache-dir -r requirements.txt
+
+      - name: Run Autograding
+        uses: education/autograding@v1
+
+      - name: Teardown isolated environment
+        if: always()
+        run: |
+          echo "🧹 Removing virtual environment to free up runner disk space..."
+          rm -rf .venv

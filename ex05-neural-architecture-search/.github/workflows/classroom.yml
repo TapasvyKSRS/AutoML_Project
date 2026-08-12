@@ -1,0 +1,36 @@
+name: GitHub Classroom Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [self-hosted, linux]
+    if: github.run_number > 1
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clean caches
+        run: |
+          find . -type d -name '__pycache__' -exec rm -rf {} +
+          rm -rf .pytest_cache .mypy_cache
+
+      - name: Run in conda env (CPU-safe)
+        run: |
+          source ~/miniconda3/etc/profile.d/conda.sh
+          conda activate automl
+          echo "PATH=$CONDA_PREFIX/bin:$PATH" >> "$GITHUB_ENV"
+
+          echo "Removing existing torch/torchvision to avoid version conflicts"
+          pip uninstall -y torch torchvision torchaudio || true
+          
+          echo "Installing requirements"
+          pip install --no-cache-dir --no-build-isolation -r requirements.txt
+
+          echo "Running tests"
+
+      - uses: education/autograding@v1

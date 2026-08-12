@@ -1,0 +1,8 @@
+pytest
+pycodestyle
+numpy
+scikit-learn 
+pandas
+liac-arff
+tabulate
+# add your requirements below this line

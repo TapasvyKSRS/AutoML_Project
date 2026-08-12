@@ -1,0 +1,5 @@
+Numpy representation: [0. 1. 0. 0. 0. 1. 1. 1. 0. 1. 0. 1. 0. 0. 1. 0. 0. 0. 0. 1. 1. 2. 1. 2.
+ 1. 2.]
+Dict representation: {'edge_0': 0, 'edge_1': 1, 'edge_2': 0, 'edge_3': 1, 'edge_4': 0, 'edge_5': 0, 'edge_6': 0, 'edge_7': 0, 'edge_8': 1, 'edge_9': 1, 'edge_10': 0, 'edge_11': 0, 'edge_12': 0, 'edge_13': 1, 'edge_14': 1, 'edge_15': 1, 'edge_16': 0, 'edge_17': 1, 'edge_18': 0, 'edge_19': 1, 'edge_20': 0, 'op_node_0': 'maxpool3x3', 'op_node_1': 'conv3x3-bn-relu', 'op_node_2': 'maxpool3x3', 'op_node_3': 'conv3x3-bn-relu', 'op_node_4': 'maxpool3x3'}
+Validation error: 0.059395015239715576
+Runtime: 1007.9229736328125

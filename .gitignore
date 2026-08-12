@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Data and generated outputs
+data/
+*/data/
+*.pkl
+*.pickle
+*.pt
+*.pth
+*.ckpt
+*.npy
+*.npz
+
+# macOS
+.DS_Store

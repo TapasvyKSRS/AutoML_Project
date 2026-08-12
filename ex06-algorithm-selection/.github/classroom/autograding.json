@@ -1,0 +1,64 @@
+{
+  "tests": [
+    {
+      "name": "toy stats",
+      "setup": "",
+      "run": "pytest tests -k test_stats[sample",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1.5
+    },
+    {
+      "name": "aslib stats",
+      "setup": "",
+      "run": "pytest tests -k test_stats[real",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1.5
+    },
+    {
+      "name": "individual",
+      "setup": "",
+      "run": "pytest tests -k test_select[individual",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 4
+    },
+    {
+      "name": "hybrid",
+      "setup": "",
+      "run": "pytest tests -k test_select[hybrid",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 4
+    },
+    {
+      "name": "test_evaluation_pipeline",
+      "setup": "",
+      "run": "pytest -k test_evaluation_pipeline",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 2     
+    },
+    {
+      "name": "checkstyle",
+      "setup": "",
+      "run": "pycodestyle --max-line-length=120 src",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+Observations on ASLib Evaluation Results
+=========================================
+
+Results (PAR10 on test split 10):
+
+| Scenario   | Virtual Best (VB) | Single Best (SB) | Individual Model | Hybrid Model |
+|------------|-------------------|------------------|------------------|--------------|
+| SAT11-INDU | 13518.1           | 18502.3          | 20272.8          | 18725.2      |
+| SAT11-RAND | 7647.1            | 23445.3          | 20182.2          | 22660.5      |
+
+---
+
+1. Gap between Single Best and Virtual Best
+
+The difference between SB and VB shows how much performance is lost by using just one algorithm:
+
+* SAT11-INDU: SB is about 5000 worse than VB
+* SAT11-RAND: SB is about 15800 worse than VB
+
+This gap is much larger for SAT11-RAND, meaning different algorithms work better on different
+instances. So, using only one algorithm is not ideal, especially for RAND.
+
+---
+
+2. Model Performance
+
+* For SAT11-INDU: both models are slightly worse than SB, so they don’t help much.
+* For SAT11-RAND: both models are better than SB, showing they can use instance differences to
+  improve results.
+
+The models use simple settings (e.g., small Random Forests), so better tuning could improve them
+further.
+
+---
+
+3. Which Scenario Benefits More?
+
+SAT11-RAND benefits more from per-instance selection because its SB–VB gap is much larger. This
+means there is more opportunity to improve by choosing different algorithms for different instances.
+
+SAT11-INDU is more uniform, so using a single algorithm already works reasonably well.
+
