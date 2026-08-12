@@ -1,0 +1,7 @@
+pytest
+pycodestyle
+numpy
+scikit-learn
+matplotlib
+seaborn
+neural-pipeline-search==0.16.0

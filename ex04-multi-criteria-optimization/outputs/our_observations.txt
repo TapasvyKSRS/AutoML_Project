@@ -1,0 +1,61 @@
+------------------------------------------------------------
+Observations
+------------------------------------------------------------
+Scalarization weights used: error_weight=0.9, runtime_weight=0.1
+We chose these weights because minimizing misclassification error
+is more important than training time for a spam classifier. Runtime
+differences between decision tree configurations are tiny (< 50ms),
+so a small weight of 0.1 is sufficient to break ties.
+ 
+------------------------------------------------------------
+Part (b) - Trajectory comparison (NEPS-scalarization.png)
+------------------------------------------------------------
+ 
+All four combinations (2 optimizers x 2 scalarization methods)
+converge to a similar minimum scalarized loss of around 0.08
+within 30 evaluations.
+ 
+Bayesian optimization reaches a low loss faster than random search,
+typically finding a good configuration within the first 5 evaluations.
+This is because it uses a surrogate model (GP) to guide the search,
+while random search samples blindly.
+ 
+Linear and Chebyshev scalarization produce similar trajectories
+under these weights (0.9, 0.1), because with a dominant error weight
+both methods end up prioritizing the same objective. The difference
+between the two methods would be more visible with balanced weights.
+ 
+Random search shows slightly higher variance across seeds (wider
+uncertainty bands), while Bayesian optimization is more consistent.
+ 
+------------------------------------------------------------
+Part (c) - Hypervolume comparison (pareto_fronts_hv.png)
+------------------------------------------------------------
+ 
+Hypervolume rankings:
+  bayesian_optimization / linear    HV = 0.9259  (best)
+  random_search / chebyshev         HV = 0.9232
+  bayesian_optimization / chebyshev HV = 0.9230
+  random_search / linear            HV = 0.9146  (worst)
+ 
+The differences are small because the search space is small
+(29x29 = 841 integer configurations) and all methods find
+similar Pareto fronts within 30 evaluations.
+ 
+Bayesian optimization with linear scalarization achieves the
+highest hypervolume, suggesting it finds a slightly more
+diverse Pareto front. Random search with linear scalarization
+performs worst, likely because it wastes evaluations on clearly
+dominated regions.
+ 
+Reference point (1, 1):
+The reference point (1.0, 1.0) is technically valid since no
+Pareto front point has error rate >= 1 or runtime >= 1 second.
+However it is not a good choice. The error rate is in [0.06, 0.25]
+and runtime is in [0.001, 0.05] seconds, so the reference point
+is far from the actual data. The hypervolume is dominated almost
+entirely by the runtime axis (the rectangle from 0.001 to 1.0 is
+much larger than from 0.06 to 1.0 on the error axis). This makes
+the metric insensitive to differences in error rate, which is the
+more important objective. A better reference point would be
+something like (0.5, 0.1) based on the actual range of the data.

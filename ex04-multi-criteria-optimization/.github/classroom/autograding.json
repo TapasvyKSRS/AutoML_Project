@@ -1,0 +1,124 @@
+{
+  "tests": [
+    {
+      "name": "CHECK THE A-PRIORI WEIGHT SUM",
+      "setup": "",
+      "run": "pytest -k test_weighted_sum tests/test_apriori.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "CHECK THE A-PRIORI WEIGHT LEXICOGRAPHIC PROCEDURE",
+      "setup": "",
+      "run": "pytest -k test_lexicographical  tests/test_apriori.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "CHECK THE PARETO FRONT 2D",
+      "setup": "",
+      "run": "pytest -k test_pareto_2D tests/test_pareto_front.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "CHECK THE PARETO FRONT 3D",
+      "setup": "",
+      "run": "pytest -k test_pareto_3D tests/test_pareto_front.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "CHECK THE NON DOMINATED SORTING 2d",
+      "setup": "",
+      "run": "pytest -k test_NDS_2D tests/test_pareto_front.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "CHECK THE NON DOMINATED SORTING 3d",
+      "setup": "",
+      "run": "pytest -k test_NDS_3D tests/test_pareto_front.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "CHECK FOR THE RANDOM SEARCH PLOT",
+      "setup": "",
+      "run": "pytest -k test_ra_plot tests/test_outputs.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "CHECK FOR THE EVOLUTIONARY SEARCH PLOT",
+      "setup": "",
+      "run": "pytest -k test_es_plot tests/test_outputs.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "CHECK FOR THE NEPS-SCALARIZATION PLOT",
+      "setup": "",
+      "run": "pytest -k test_scalarization_plot tests/test_outputs.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "CHECK FOR THE HYPERVOLUMES PLOT",
+      "setup": "",
+      "run": "pytest -k test_hypervolumes_plot tests/test_outputs.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "CHECK THE OBSERVATIONS OUTPUTS",
+      "setup": "",
+      "run": "pytest -k test_observations tests",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 4
+    },
+    {
+      "name": "checkstyle",
+      "setup": "",
+      "run": "pycodestyle --max-line-length=120 src",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    }
+  ]
+}
