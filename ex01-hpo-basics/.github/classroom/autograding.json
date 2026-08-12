@@ -1,0 +1,165 @@
+{
+  "tests": [
+    {
+      "name": "Members Exist",
+      "setup": "",
+      "run": "pytest -k test_members_exist tests/test_outputs.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points":0.5
+    }, 
+
+    {
+      "name": "Mutation None and borders",
+      "setup": "",
+      "run": "pytest -k test_none tests/test_mutation.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points":0.5
+    },
+    {
+      "name": "Mutation None and borders",
+      "setup": "",
+      "run": "pytest -k test_borders tests/test_mutation.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "mutation uniform",
+      "setup": "",
+      "run": "pytest -k test_uniform tests/test_mutation.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "mutation guassian",
+      "setup": "",
+      "run": "pytest -k test_gauss tests/test_mutation.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "recombination none",
+      "setup": "",
+      "run": "pytest -k test_none tests/test_recombination.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "recombination uniform",
+      "setup": "",
+      "run": "pytest -k test_uniform tests/test_recombination.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "recombination intermediate",
+      "setup": "",
+      "run": "pytest -k test_intermediate tests/test_recombination.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "selection tournament",
+      "setup": "",
+      "run": "pytest -k test_tournament tests/test_selection.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "selection fitness",
+      "setup": "",
+      "run": "pytest -k test_fitness tests/test_selection.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "selection neutral",
+      "setup": "",
+      "run": "pytest -k test_neutral tests/test_selection.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    },
+    {
+      "name": "hpo",
+      "setup": "",
+      "run": "pytest -k test_hpo tests/test_hyperparameter_search.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 180,
+      "points": 3
+    },
+    {
+      "name": "neps",
+      "setup": "",
+      "run": "pytest -k test_neps_plot_exists tests/test_outputs.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 180,
+      "points": 0.5
+    },
+    {
+      "name": "neps",
+      "setup": "",
+      "run": "pytest -k test_ackley_comparison tests/test_outputs.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 180,
+      "points": 1
+    },
+    {
+      "name": "neps",
+      "setup": "",
+      "run": "pytest -k test_your_observations tests/test_outputs.py",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 180,
+      "points": 2
+    },
+    {
+      "name": "checkstyle",
+      "setup": "",
+      "run": "pycodestyle --max-line-length=120 src/",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    }
+  ]
+}

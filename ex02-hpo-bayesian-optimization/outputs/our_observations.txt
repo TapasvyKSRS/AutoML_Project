@@ -1,0 +1,163 @@
+=============================================================
+Observations - Exercise 02: Hyperparameter Optimization & BO
+=============================================================
+
+Submitters -
+Bharadhwaj Manchikanti
+Reddyi Sai Tapasvy Kasaba Sai
+Jennifer Sreedhara Jeeyar 
+
+-------------------------------------------------------------
+Part 1: BO vs Grid Search vs Random Search (BO_comp.png)
+-------------------------------------------------------------
+
+Looking at the BO_comp.png plot, we compared EI, LCB, Random Search and 
+Grid Search over 20 function evaluations on the Levy 1D function.
+
+The first thing that stands out is how much better both BO methods (EI and 
+LCB) perform compared to the baselines. By around evaluation 5-7, EI and LCB 
+already start finding much better values than random and grid search manage 
+to find even after all 20 evaluations.
+
+LCB seems to be the most aggressive optimizer - it drops to around 1e-5 by 
+the end, which is the lowest of all methods. EI is close behind reaching 
+around 1e-3. Both clearly outperform the baselines.
+
+Random search does surprisingly okay - it manages to find decent solutions 
+eventually but is very inconsistent (the shaded variance region is huge). 
+This makes sense because it gets lucky sometimes but has no strategy.
+
+Grid search performs the worst overall. It stays high (around 1e-2 to 1e-1) 
+for most of the run and barely improves. This is because with only 20 
+evaluations in [-15, 10], the grid points are spaced too far apart to find 
+the minimum at x=1.
+
+The confidence bands (shaded areas) for EI and LCB are also much tighter 
+than for random and grid search, meaning BO is more consistent across seeds. 
+Random search has massive variance - sometimes it gets lucky, sometimes not.
+
+Key takeaway: With a very limited budget of 20 evaluations, BO clearly wins. 
+It uses past observations to guide where to search next, which is critical 
+when evaluations are expensive. Grid and random search waste evaluations in 
+regions that are clearly bad.
+
+-------------------------------------------------------------
+BO.png - GP Model and Acquisition Functions
+-------------------------------------------------------------
+
+The top plot shows the GP surrogate model fitted on 10 random observations 
+of the Levy function. The model (green) tracks the true function (blue) well 
+near the observed points but the uncertainty (orange band) grows large in 
+the region around x > 2 where there's little data. This is exactly what 
+we'd expect from a GP - it's confident near observations and uncertain far 
+from them.
+
+LCB (orange) in the top plot overlaps almost perfectly with the model mean 
+near x=0 to x=2 and shows wider bounds further right, encouraging 
+exploration in that uncertain region.
+
+The EI plot (bottom) peaks around x=3 to x=6, which makes sense - this is 
+where the GP thinks there might be good values (low mean) AND there's high 
+uncertainty. The EI being near 0 on the left side means the model is 
+confident those regions are not worth exploring since we already have 
+observations showing high function values there.
+
+-------------------------------------------------------------
+Part 2: NePS Trajectory (NEPS-trajectory.png)
+-------------------------------------------------------------
+
+Adding NEPS to the comparison is interesting. NEPS (purple) drops quickly 
+in the first 3 evaluations to around 1e-1 but then completely flatlines - 
+it doesn't improve at all for the remaining 17 evaluations. This is 
+surprising and suggests either:
+- NEPS got stuck in a local minimum
+- The budget of 20 evaluations was too small for NEPS to properly explore 
+  and then exploit (it needs more initial random points)
+- NEPS might need more evaluations to "warm up" before its BO kicks in
+
+EI and LCB still clearly outperform everything. LCB again reaches the 
+lowest values (~1e-5) by evaluation 20, showing it's the most 
+sample-efficient on this 1D function.
+
+Random search continues to be erratic but manages around 1e-1 to 1e-2 
+which is better than NEPS in this budget regime, which is a bit 
+unexpected.
+
+Grid search performs poorly as before, stuck around 1e-2 to 1e-1.
+
+Effect of budget: With 20 evaluations, model-based methods like EI and LCB 
+shine because they learn from every single observation. Increasing the budget 
+would likely help NEPS more than EI/LCB since NEPS probably needs more 
+exploration before it can effectively exploit. Grid search would also improve 
+more with budget since it just needs more points to cover the space.
+
+-------------------------------------------------------------
+Summary
+-------------------------------------------------------------
+
+Best performer:   LCB (most sample efficient, lowest final value)
+Second:           EI  (consistent, good across seeds)
+Third:            Random Search (erratic but occasionally lucky)
+Fourth:           NEPS (plateaus too early with small budget)
+Worst:            Grid Search (wastes budget on bad regions)
+
+Overall, model-based BO methods are clearly worth the extra complexity when
+function evaluations are expensive and the budget is small. The difference
+between BO and baselines is most dramatic in the 5-15 evaluation range.
+
+-------------------------------------------------------------
+Part 3: HPOSuite BO Comparison (hposuite-bo-comparison.png)
+-------------------------------------------------------------
+
+We compared four SoTA BO optimizers on the BBOB Schwefel 5D function
+(f20, instance 0) with a budget of 20 evaluations and 3 seeds:
+SMAC_BO, Optuna (TPE), Scikit-Optimize (GP+EI), and NepsBO.
+
+Final ranking at eval 20 (lower is better):
+  1st: SMAC_BO        (~1,500  - near zero)
+  2nd: Optuna         (~8,000)
+  3rd: Scikit_Optimize (~16,000)
+  4th: NepsBO         (~19,000)
+
+Performance/Behavior Differences:
+
+SMAC_BO  performs the best overall. It starts around 26,000 and stays 
+flat until about evaluation 10, after which it drops sharply to near 
+zero and remains there. This suggests that the Random Forest surrogate 
+becomes reliable around that point and is able to guide the search 
+effectively toward a good region. Its performance also becomes very 
+consistent toward the end, as seen by the reduced variance across runs. 
+This method handles the multimodal Schwefel function well.
+
+Optuna shows the most stable and gradual improvement. It steadily decreases 
+from around 40,000 to about 8,000 over all 20 evaluations, without any clear 
+plateau. This indicates consistent progress throughout the budget. Its TPE-based 
+approach works well in multimodal settings, and the variance remains moderate, 
+showing fairly consistent behavior across different runs.
+
+Scikit-Optimize GP+EI improves quickly in the first few evaluations (from 
+~28,000 to ~18,000), but then stops improving and plateaus for the rest of the
+ budget. This suggests that it gets stuck in a local minimum early on. The GP model 
+ assumes smoothness, which does not match the highly multimodal nature of the
+  Schwefel function, making it difficult to explore effectively.
+
+NepsBO has the weakest performance initially, starting around 65,000 with very 
+high variance. It remains almost flat until about evaluation 17, after which it 
+improves to around 19,000. This indicates that a large portion of its budget is 
+spent on initial exploration, leaving limited time for effective optimization. 
+The high variance also shows inconsistent behavior across runs.
+
+Variance: All methods show high variance, especially in the early evaluations. 
+This suggests that a budget of 20 evaluations is too small for reliable optimization 
+in a 5D problem. Early results are strongly influenced by random initialization, 
+which leads to differences between runs.
+
+Effect of Budget:
+With a small budget (20 evaluations), SMAC_BO performs best because it is able to 
+build a useful model relatively quickly.
+With larger budgets (50–100 evaluations):
+ - Optuna is expected to improve further and may approach or match SMAC_BO.
+ - GP-based methods (Scikit-Optimize and NepsBO) would benefit from more data, as their 
+   models become more accurate over time.
+ - NepsBO would also improve since its initial exploration phase would take up a 
+   smaller portion of the total budget.

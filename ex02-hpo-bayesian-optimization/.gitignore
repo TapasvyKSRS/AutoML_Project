@@ -1,0 +1,17 @@
+__pycache__
+doc.aux
+doc.fdb_latexmk
+doc.fls
+doc.log
+doc.out
+doc.synctex.gz
+
+hpo_suite/*
+hposuite/*
+neps/*
+data/*
+Optimizers_cache/*
+
+*.pkl
+*.lock
+*.idea

@@ -1,0 +1,56 @@
+## EA vs NePS on Ackley Function — Observations
+
+### Search Space Exploration
+
+The EA (with Gaussian mutation, Tournament selection, Intermediate
+recombination) concentrates its search tightly around a small region
+near (0, 0) very quickly. This is because selection pressure and
+recombination push the population toward the best-seen region early,
+causing the search to exploit rather than explore. A few outlier points
+(yellow, high fitness) represent the initial random population before
+convergence. The EA never revisits the far corners of [-30, 30] after
+the first generation.
+
+NePS (Bayesian Optimization) shows a much broader initial exploration —
+points are spread across the entire [-30, 30] search space in the early
+iterations. This is because NePS begins with random sampling to build
+an initial model, then uses that model to focus on promising regions.
+This exploration-then-exploitation pattern is visible in the scatter
+plot: yellow dots (bad configs) at the edges, dark purple dots (good
+configs) near the centre.
+
+### Convergence Speed
+
+The EA converges very rapidly — the convergence curve drops steeply in
+the first ~30 children evaluations and then flattens almost completely.
+This shows the EA is good at fast initial improvement but gets stuck
+once the population has converged to a local region. The final fitness
+achieved is approximately 0.3 — close to but not exactly the true
+optimum of 0.0.
+
+NePS converges more gradually but more reliably. After a quick drop in the first three iterations (random lucky samples), the fitness keeps getting better until iteration 200, when it finally reaches a final value close to 0.0, which is the true global optimum of the Ackley function.
+
+### Exploration vs Exploitation
+
+The EA struggles to balance exploration and exploitation. Once the
+population clusters near a good region, Gaussian mutation with sigma=1.0
+only makes small local perturbations, preventing the algorithm from
+escaping to find potentially better areas. Running the EA multiple times
+with different random seeds shows significant variance in the final
+result — sometimes it converges near 0.0, sometimes near 0.5, depending
+on the initial population.
+
+NePS maintains better exploration throughout — its surrogate model
+actively identifies uncertain regions worth exploring and balances
+this against exploiting the known good region near (0, 0). This leads
+to a more consistent and reliable convergence to the true optimum
+across multiple runs.
+
+### Summary
+
+For a simple 2D problem like Ackley, both methods find good solutions.
+However NePS reaches the true optimum (≈0.0) more reliably while the
+EA tends to stall slightly above it (≈0.3). For higher-dimensional or
+more complex problems, this gap would likely grow significantly, since
+the EA's tendency to converge prematurely becomes more problematic as
+the search space grows.

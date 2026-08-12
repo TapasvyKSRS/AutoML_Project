@@ -1,0 +1,35 @@
+name: GitHub Classroom Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [self-hosted, linux]
+    # Runs autograding only after the first 3 pushes
+    if: github.run_number > 3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clean caches
+        run: |
+          find . -type d -name '__pycache__' -exec rm -rf {} +
+          rm -rf .pytest_cache .mypy_cache
+
+      - name: Run in conda env (CPU-safe)
+        run: |
+          source ~/miniconda3/etc/profile.d/conda.sh
+          conda activate automl
+
+          echo "Installing CPU-only PyTorch"
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+          echo "Installing requirements"
+          pip install --no-cache-dir --no-build-isolation -r requirements.txt
+
+          echo "Running tests"
+      - uses: education/autograding@v1

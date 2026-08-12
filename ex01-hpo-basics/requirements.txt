@@ -1,0 +1,11 @@
+pytest
+pycodestyle
+neural-pipeline-search==0.16.0
+hposuite==0.1.3
+hposuite[nevergrad]==0.1.3
+
+# --- Troubleshooting ---
+# If you get "Building Wheel" errors, run: pip install --upgrade setuptools wheel cython
+# Mac users: If 'swig' is missing, use: brew install swig (or conda install swig)
+
+# for this exercise you are not allowed to add new packages

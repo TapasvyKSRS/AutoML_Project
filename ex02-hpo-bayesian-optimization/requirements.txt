@@ -1,0 +1,19 @@
+# Core Testing & Linting
+pytest
+pycodestyle
+
+matplotlib
+numpy>=1.24.0,<2.0.0
+scipy
+scikit-learn
+
+hposuite[benchmarks]==0.1.3
+neural-pipeline-search==0.13.0
+
+smac
+optuna
+scikit-optimize
+
+# if error persists in building wheels
+# try using pip install --upgrade setuptools wheel cython
+# You  may need to install swig

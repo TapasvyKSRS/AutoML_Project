@@ -1,0 +1,94 @@
+{
+  "tests": [
+    {
+      "name": "CHECK THE IMPLEMENTATION OF THE GAUSSIAN PROCESS",
+      "setup": "",
+      "run": "pytest -k test_manual_fit_gaussian_process",
+      "input": "",
+      "output": "",
+      "comparison": "included", 
+      "timeout": 10,
+      "points": 2
+    },
+    {
+      "name": "CHECK THE EXPECTED IMPROVEMENT",
+      "setup": "",
+      "run": "pytest -k test_expected_improvement tests",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1.25
+    },
+    {
+      "name": "CHECK THE LOWER CONFIDENCE BOUND",
+      "setup": "",
+      "run": "pytest -k test_lower_confidence_bound tests",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1.25
+    },
+    {
+      "name": "CHECK THE BO PLOT",
+      "setup": "",
+      "run": "pytest -k test_bo_plot_exists tests",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "CHECK THE RANDOM SEARCH / GRID SEARCH",
+      "setup": "",
+      "run": "pytest -k test_manual tests",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 2
+    },
+    {
+      "name": "CHECK THE BO COMPARISON OUTPUTS",
+      "setup": "",
+      "run": "pytest -k test_bo_comparison tests",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "CHECK THE NEPS OUTPUTS",
+      "setup": "",
+      "run": "pytest -k test_neps_hpo_bo tests",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 0.5
+    },
+    {
+      "name": "CHECK THE OBSERVATIONS OUTPUTS",
+      "setup": "",
+      "run": "pytest -k test_observations tests",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 3
+    },
+    {
+      "name": "checkstyle",
+      "setup": "",
+      "run": "pycodestyle --max-line-length=120 src",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 1
+    }
+  ]
+}
